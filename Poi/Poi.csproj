@@ -72,13 +72,13 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Condition="'$(Platform)' == 'x86'" Include="gdalconst_csharp">
+    <Reference Condition="'$(Platform)' != 'x64'" Include="gdalconst_csharp">
       <HintPath>..\Dll\x86\gdalconst_csharp.dll</HintPath>
     </Reference>
     <Reference Condition="'$(Platform)' == 'x64'" Include="gdalconst_csharp">
       <HintPath>..\Dll\x64\gdalconst_csharp.dll</HintPath>
     </Reference>
-    <Reference Condition="'$(Platform)' == 'x86'" Include="gdal_csharp">
+    <Reference Condition="'$(Platform)' != 'x64'" Include="gdal_csharp">
       <HintPath>..\Dll\x86\gdal_csharp.dll</HintPath>
     </Reference>
     <Reference Condition="'$(Platform)' == 'x64'" Include="gdal_csharp">
@@ -87,13 +87,13 @@
     <Reference Include="log4net">
       <HintPath>..\Dll\x86\log4net.dll</HintPath>
     </Reference>
-    <Reference Condition="'$(Platform)' == 'x86'" Include="ogr_csharp">
+    <Reference Condition="'$(Platform)' != 'x64'" Include="ogr_csharp">
       <HintPath>..\Dll\x86\ogr_csharp.dll</HintPath>
     </Reference>
     <Reference Condition="'$(Platform)' == 'x64'" Include="ogr_csharp">
       <HintPath>..\Dll\x64\ogr_csharp.dll</HintPath>
     </Reference>
-    <Reference Condition="'$(Platform)' == 'x86'" Include="osr_csharp">
+    <Reference Condition="'$(Platform)' != 'x64'" Include="osr_csharp">
       <HintPath>..\Dll\x86\osr_csharp.dll</HintPath>
     </Reference>
     <Reference Condition="'$(Platform)' == 'x64'" Include="osr_csharp">
@@ -101,7 +101,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Condition="'$(Platform)' == 'x86'" Include="System.Data.SQLite">
+    <Reference Condition="'$(Platform)' != 'x64'" Include="System.Data.SQLite">
       <HintPath>..\Dll\x86\System.Data.SQLite.dll</HintPath>
     </Reference>
     <Reference Condition="'$(Platform)' == 'x64'" Include="System.Data.SQLite">
