@@ -89,17 +89,19 @@ namespace Poi.Baidu
 
             try
             {
-                Dictionary<string, object>[] results = res["results"] as Dictionary<string, object>[];
-                for (int i = 0; i < results.Length; i++)
+                IList results = res["results"] as ArrayList;
+                foreach (Dictionary<string, object> result in results)
                 {
-                    Dictionary<string, object> result = results[i];
                     PoiInfo poi = new PoiInfo();
                     poi.Name = result["name"].ToString();
                     Dictionary<string, object> location = result["location"] as Dictionary<string, object>;
                     poi.Lat = Convert.ToSingle(location["lat"]);
                     poi.Lng = Convert.ToSingle(location["lng"]);
                     poi.Address = result["address"].ToString();
-                    poi.Telephone = result["telephone"].ToString();
+                    if (result.ContainsKey("telephone"))
+                    {
+                        poi.Telephone = result["telephone"].ToString();
+                    }
                     poi.Uid = result["uid"].ToString();
                     if (result.ContainsKey("detail_info"))
                     {

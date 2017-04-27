@@ -167,10 +167,10 @@ namespace Poi
             }
             if (res < 0) // 返回错误
             {
-                msg = PlaceAPIHandler.GetErrMsg(res);
-                MessageBox.Show(msg);
+                msg = PlaceAPIHandler.GetErrMsg(res);                
             }
 
+            MessageBox.Show(msg);
             toolStripStatusLabelStatus.Text = "就绪";
             toolStripProgressBar1.Visible = false;
             toolStripStatusLabelResult.Text = string.Format("已获取 {0} / {1} 个POI —— {2}", handler.GetNum,
@@ -393,7 +393,7 @@ namespace Poi
             {
                 // 检查是否有对应矢量
                 string cityName = comboBoxCity.SelectedItem.ToString();
-                City city = CityDao.SelectByName(cityName);
+                city = CityDao.SelectByName(cityName);
                 if (city == null)
                 {
                     MessageBox.Show("此城市没有相应的矢量数据，无法分块获取POI");
