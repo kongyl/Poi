@@ -16,7 +16,7 @@ namespace Poi.Baidu
         private Region region;
         private int totalNum; // 一次搜索的总数
         private int getNum; // 获取的poi数量
-        private DataGridView dataGridView; // 输出的 DataGridView
+        private DataGridView dataGridView;
 
         public int GetNum
         {
@@ -165,63 +165,8 @@ namespace Poi.Baidu
             return RequestData(url);
         }
 
-        /*/ 根据页码获取数据
-        public int GetBoundsData(int rowNum, int colNum, DataGridView dataGridView)
-        {
-            // 获取对应矢量
-            string cityName = region.Name;
-            City city = CityDao.SelectByName(cityName);
-            if (city == null)
-            {
-                return -6;
-            }
-            int fid = Convert.ToInt32(city.Id);
-            Geometry geometry = GisUtil.GetGeometry(fid);
-
-            // 获取间隔
-            Envelope envelope = new Envelope();
-            geometry.GetEnvelope(envelope);
-            double xInterval = (envelope.MaxX - envelope.MinX) / colNum;
-            double yInterval = (envelope.MaxY - envelope.MinY) / rowNum;
-
-            // 逐分块请求
-            double minX = envelope.MinX;
-            double minY = envelope.MinY;
-            double maxX;
-            double maxY;
-            for (int i = 0; i < rowNum; i++)
-            {
-                maxY = minY + yInterval;
-                for (int j = 0; j < colNum; j++)
-                {
-                    maxX = minX + xInterval;
-
-                    int subType = GisUtil.GetEnvelopeRelationship(geometry, minX, maxX, minY, maxY);
-                    if (subType > 0)
-                    {
-                        string bounds = string.Format("{0},{1},{2},{3}", minY, minX, maxY, maxX);
-                        //if (subType > 1) // geometry 包含整个子块
-                        //{
-                            int page = 0;
-                            int stopFlag = 0;
-                            while (stopFlag == 0)
-                            {
-                                stopFlag = GetBoundsPageData(bounds, page, dataGridView);
-                                page++;
-                            }
-                        //}
-                    }
-
-                    minX = maxX;
-                }
-                minY = maxY;
-            }
-
-            return 0;
-        }*/
-
         // 根据页码获取 bounds 数据
-        private int GetBoundsPageData(string bounds, int page)
+        public int GetBoundsPageData(string bounds, int page)
         {
             // 组装参数
             IDictionary<string, string> paramDic = new Dictionary<string, string>();
@@ -267,7 +212,10 @@ namespace Poi.Baidu
             }
 
             // 输出
-            outputDataGridView(poiList, dataGridView); // 输出到 DataGridView
+            if (dataGridView != null)
+            {
+                outputDataGridView(poiList, dataGridView); // 输出到 DataGridView
+            }
 
             return 0;
         }
