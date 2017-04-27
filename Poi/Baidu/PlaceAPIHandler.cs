@@ -1,4 +1,5 @@
-﻿using Poi.Dao;
+﻿using OSGeo.OGR;
+using Poi.Dao;
 using Poi.Model;
 using Poi.Util;
 using System;
@@ -166,7 +167,7 @@ namespace Poi.Baidu
         }
 
         // 根据页码获取 bounds 数据
-        public int GetBoundsPageData(string bounds, int page)
+        public int GetBoundsPageData(string bounds, int page, Geometry geometry)
         {
             // 组装参数
             IDictionary<string, string> paramDic = new Dictionary<string, string>();
@@ -180,11 +181,11 @@ namespace Poi.Baidu
             // 发送请求
             string url = generateUrl(paramDic);
 
-            return RequestData(url);
+            return RequestData(url, geometry);
         }
 
         // 请求数据
-        private int RequestData(string url)
+        private int RequestData(string url, Geometry geometry = null)
         {
             string res = HttpUtil.GetResponseContent(url);
             if (res == null)
@@ -209,6 +210,11 @@ namespace Poi.Baidu
             if (poiList.Count == 0) // 请求成功，但没有结果
             {
                 return 1;
+            }
+
+            if (geometry != null) // 剔除 Geometry 外的点
+            {
+                poiList = removeOuter(poiList, geometry);
             }
 
             // 输出
@@ -240,6 +246,22 @@ namespace Poi.Baidu
                 // 定位到当前行，以触发刷新事件
                 dataGridView.CurrentCell = dataGridView.Rows[index].Cells[0];                
             }
+        }
+
+        // 剔除 Geometry 外的点
+        private List<PoiInfo> removeOuter(List<PoiInfo> poiList, Geometry geometry)
+        {
+            List<PoiInfo> newPoiList = new List<PoiInfo>();
+
+            foreach (PoiInfo poi in poiList)
+            {
+                if (GisUtil.IsContainsPoint(geometry, poi.Lng, poi.Lat))
+                {
+                    newPoiList.Add(poi);
+                }
+            }
+
+            return newPoiList;
         }
     }
 }

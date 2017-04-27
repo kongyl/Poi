@@ -122,20 +122,22 @@ namespace Poi
                     if (subType > 0)
                     {
                         string bounds = string.Format("{0},{1},{2},{3}", minY, minX, maxY, maxX);
-                        //if (subType > 1) // geometry 包含整个子块
-                        //{
+                        Geometry geo = null; // 不做相交判断
+                        if (subType == 1) // geometry 与子块相交
+                        {
+                            geo = geometry; // 需要做相交判断
+                        }
                         int page = 0;
                         int stopFlag = 0;
                         while (stopFlag == 0)
                         {
-                            stopFlag = handler.GetBoundsPageData(bounds, page);
+                            stopFlag = handler.GetBoundsPageData(bounds, page, geo);
                             page++;
                         }
                         if (stopFlag < 0) // 返回错误
                         {
                             return stopFlag;
                         }
-                        //}
                     }
 
                     minX = maxX;
