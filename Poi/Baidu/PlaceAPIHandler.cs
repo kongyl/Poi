@@ -121,9 +121,11 @@ namespace Poi.Baidu
                     break;
                 case -3:
                 case -5:
+                case -200:
                     errMsg = "权限错误，请检查 ak 和 sk 配置";
                     break;
                 case -4:
+                case -302:
                     errMsg = "今日配额已达上限";
                     break;
                 case -6:
