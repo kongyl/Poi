@@ -422,7 +422,7 @@
             // 
             // saveFileDialog1
             // 
-            this.saveFileDialog1.Filter = "Excel 工作簿 (*.xlsx)|*.xlsx|Excel 97-2003 工作簿 (*.xls)|*.xls";
+            this.saveFileDialog1.Filter = "Excel 工作簿 (*.xlsx)|*.xlsx";
             // 
             // statusStrip1
             // 

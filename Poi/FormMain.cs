@@ -1,10 +1,13 @@
-﻿using OSGeo.OGR;
+﻿using NPOI.SS.UserModel;
+using NPOI.XSSF.UserModel;
+using OSGeo.OGR;
 using Poi.Baidu;
 using Poi.Dao;
 using Poi.Model;
 using Poi.Util;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Windows.Forms;
 
 namespace Poi
@@ -193,6 +196,8 @@ namespace Poi
                 return;
             }
             // excel导出路径
+            IWorkbook workbook = null;
+            ISheet sheet = null;
             if (checkBoxExport.Checked)
             {
                 if (string.IsNullOrEmpty(textBoxSave.Text.Trim()))
@@ -200,13 +205,18 @@ namespace Poi
                     MessageBox.Show("请选择数据导出路径");
                     return;
                 }
+                // 创建 excel
+                workbook = new XSSFWorkbook();
+                sheet = workbook.CreateSheet("poi");
+
+                XlsUtil.AddBaiduHeader(sheet);
             }            
 
             // 开始请求
             toolStripStatusLabelStatus.Text = "请求开始……";
 
             // 获取总数
-            handler = new PlaceAPIHandler(comboBoxCity.SelectedItem as Region, keyWord, dataGridView1);
+            handler = new PlaceAPIHandler(comboBoxCity.SelectedItem as Region, keyWord, dataGridView1, sheet);
             int totalNum = handler.GetTotalNum((comboBoxProvince.SelectedItem as Region).Name);
             if (totalNum < 0) // 返回错误
             {
@@ -246,6 +256,14 @@ namespace Poi
 
                 // 请求
                 requestData(rowNum, colNum);
+                // 保存 excel
+                if (workbook != null)
+                {
+                    FileStream fs = File.Create(textBoxSave.Text);
+                    workbook.Write(fs);
+                    workbook.Close();
+                    fs.Close();
+                }
             }
         }
 
@@ -356,7 +374,7 @@ namespace Poi
 
             // 开始请求
             Region region = comboBoxCity.SelectedItem as Region;
-            handler = new PlaceAPIHandler(region, keyWord, null);
+            handler = new PlaceAPIHandler(region, keyWord);
             int totalNum = handler.GetTotalNum((comboBoxProvince.SelectedItem as Region).Name);
             if (totalNum < 0) // 返回错误
             {
@@ -426,7 +444,7 @@ namespace Poi
 
             // 开始请求
             Region region = comboBoxCity.SelectedItem as Region;
-            handler = new PlaceAPIHandler(region, keyWord, null);
+            handler = new PlaceAPIHandler(region, keyWord);
             int totalNum = handler.GetTotalNum((comboBoxProvince.SelectedItem as Region).Name);
             if (totalNum < 0) // 返回错误
             {

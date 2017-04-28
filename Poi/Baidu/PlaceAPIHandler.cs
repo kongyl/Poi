@@ -1,4 +1,5 @@
-﻿using OSGeo.OGR;
+﻿using NPOI.SS.UserModel;
+using OSGeo.OGR;
 using Poi.Dao;
 using Poi.Model;
 using Poi.Util;
@@ -18,6 +19,7 @@ namespace Poi.Baidu
         private int totalNum; // 一次搜索的总数
         private int getNum; // 获取的poi数量
         private DataGridView dataGridView;
+        private ISheet sheet;
 
         public int GetNum
         {
@@ -43,12 +45,13 @@ namespace Poi.Baidu
             }
         }
 
-        public PlaceAPIHandler(Region region, string keyWord, DataGridView dataGridView)
+        public PlaceAPIHandler(Region region, string keyWord, DataGridView dataGridView = null, ISheet sheet = null)
         {
             // 外部参数
             this.region = region;
             this.keyWord = keyWord;
             this.dataGridView = dataGridView;
+            this.sheet = sheet;
 
             // 内部参数
             Dictionary dicAk = DictionaryDao.SelectByKey("ak");
@@ -218,33 +221,40 @@ namespace Poi.Baidu
             }
 
             // 输出
-            if (dataGridView != null)
-            {
-                outputDataGridView(poiList, dataGridView); // 输出到 DataGridView
-            }
+            output(poiList); // 输出到 DataGridView
 
             return 0;
         }
 
-        // 输出到 DataGridView
-        private void outputDataGridView(List<PoiInfo> poiList, DataGridView dataGridView)
+        // 输出
+        private void output(List<PoiInfo> poiList)
         {
             foreach (PoiInfo poi in poiList)
             {
                 getNum++;
 
-                DataGridViewRow row = new DataGridViewRow();
-                int index = dataGridView.Rows.Add(row);
-                // 编号
-                dataGridView.Rows[index].Cells[0].Value = getNum;
-                // 标题
-                dataGridView.Rows[index].Cells[1].Value = poi.Name;
-                // 坐标
-                dataGridView.Rows[index].Cells[2].Value = string.Format("{0}, {1}", poi.Lat, poi.Lng);
-                // 地址
-                dataGridView.Rows[index].Cells[3].Value = poi.Address;
-                // 定位到当前行，以触发刷新事件
-                dataGridView.CurrentCell = dataGridView.Rows[index].Cells[0];                
+                // 输出到 Excel
+                if (sheet != null)
+                {
+                    XlsUtil.AddBaiduContent(sheet, poi, getNum);
+                }
+
+                // 输出到 DataGridView
+                if (dataGridView != null)
+                {
+                    DataGridViewRow row = new DataGridViewRow();
+                    int index = dataGridView.Rows.Add(row);
+                    // 编号
+                    dataGridView.Rows[index].Cells[0].Value = getNum;
+                    // 标题
+                    dataGridView.Rows[index].Cells[1].Value = poi.Name;
+                    // 坐标
+                    dataGridView.Rows[index].Cells[2].Value = string.Format("{0}, {1}", poi.Lng, poi.Lat);
+                    // 地址
+                    dataGridView.Rows[index].Cells[3].Value = poi.Address;
+                    // 定位到当前行，以触发刷新事件
+                    dataGridView.CurrentCell = dataGridView.Rows[index].Cells[0];
+                }
             }
         }
 

@@ -40,9 +40,9 @@
 
         public string ImageNum { get; set; } // 图片数
 
-        public int GrouponNum { get; set; } // 团购数
+        public string GrouponNum { get; set; } // 团购数
 
-        public int DiscountNum { get; set; } // 优惠数
+        public string DiscountNum { get; set; } // 优惠数
 
         public string CommentNum { get; set; } // 评论数
 

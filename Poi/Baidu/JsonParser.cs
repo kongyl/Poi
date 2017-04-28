@@ -160,11 +160,11 @@ namespace Poi.Baidu
                         }
                         if (detailInfo.ContainsKey("groupon_num"))
                         {
-                            poi.GrouponNum = Convert.ToInt32(detailInfo["groupon_num"]);
+                            poi.GrouponNum = detailInfo["groupon_num"].ToString();
                         }
                         if (detailInfo.ContainsKey("discount_num"))
                         {
-                            poi.DiscountNum = Convert.ToInt32(detailInfo["discount_num"]);
+                            poi.DiscountNum = detailInfo["discount_num"].ToString();
                         }
                         if (detailInfo.ContainsKey("comment_num"))
                         {
