@@ -477,6 +477,8 @@ namespace Poi
                     yNum = Convert.ToInt32(Math.Sqrt(blockNum / r)) + 1;
                     xNum = Convert.ToInt32(yNum * r) + 1;
                 }
+                xNum *= 2;
+                yNum *= 2;
 
                 MessageBox.Show(string.Format("区域：{0}，关键词：{1}，共有 {2} 个结果。建议分块为 {3} 行，{4} 列",
                         region.Name, keyWord, totalNum, yNum, xNum));
