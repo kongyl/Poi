@@ -62,7 +62,6 @@
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabelStatus = new System.Windows.Forms.ToolStripStatusLabel();
-            this.toolStripProgressBar1 = new System.Windows.Forms.ToolStripProgressBar();
             this.toolStripStatusLabelResult = new System.Windows.Forms.ToolStripStatusLabel();
             this.checkBoxExport = new System.Windows.Forms.CheckBox();
             this.buttonTotal = new System.Windows.Forms.Button();
@@ -429,7 +428,6 @@
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabelStatus,
-            this.toolStripProgressBar1,
             this.toolStripStatusLabelResult});
             this.statusStrip1.Location = new System.Drawing.Point(0, 372);
             this.statusStrip1.Name = "statusStrip1";
@@ -442,13 +440,6 @@
             this.toolStripStatusLabelStatus.Name = "toolStripStatusLabelStatus";
             this.toolStripStatusLabelStatus.Size = new System.Drawing.Size(32, 17);
             this.toolStripStatusLabelStatus.Text = "就绪";
-            // 
-            // toolStripProgressBar1
-            // 
-            this.toolStripProgressBar1.Name = "toolStripProgressBar1";
-            this.toolStripProgressBar1.Size = new System.Drawing.Size(100, 16);
-            this.toolStripProgressBar1.Style = System.Windows.Forms.ProgressBarStyle.Marquee;
-            this.toolStripProgressBar1.Visible = false;
             // 
             // toolStripStatusLabelResult
             // 
@@ -565,7 +556,6 @@
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.CheckBox checkBoxKey2;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelStatus;
-        private System.Windows.Forms.ToolStripProgressBar toolStripProgressBar1;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelResult;
         private System.Windows.Forms.CheckBox checkBoxExport;
         private System.Windows.Forms.Button buttonTotal;

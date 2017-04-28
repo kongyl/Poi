@@ -107,13 +107,15 @@ namespace Poi
             double yInterval = (envelope.MaxY - envelope.MinY) / rowNum;
 
             // 逐分块请求
-            double minX = envelope.MinX;
-            double minY = envelope.MinY;
+            double minX;
+            double minY;
             double maxX;
             double maxY;
+            minY = envelope.MinY;
             for (int i = 0; i < rowNum; i++)
             {
                 maxY = minY + yInterval;
+                minX = envelope.MinX;
                 for (int j = 0; j < colNum; j++)
                 {
                     maxX = minX + xInterval;
@@ -157,7 +159,6 @@ namespace Poi
             // 开始请求
             toolStripStatusLabelResult.Text = string.Format("已获取 {0} / {1} 个POI", handler.GetNum,
                     handler.TotalNum);
-            toolStripProgressBar1.Visible = true;
 
             if (rowNum * colNum > 1) // 分块获取数据   
             {
@@ -174,7 +175,6 @@ namespace Poi
 
             MessageBox.Show(msg);
             toolStripStatusLabelStatus.Text = "就绪";
-            toolStripProgressBar1.Visible = false;
             toolStripStatusLabelResult.Text = string.Format("已获取 {0} / {1} 个POI —— {2}", handler.GetNum,
                     handler.TotalNum, msg);
         }
@@ -239,7 +239,6 @@ namespace Poi
                                 == DialogResult.Cancel) // 取消请求
                         {
                             toolStripStatusLabelStatus.Text = "就绪";
-                            toolStripProgressBar1.Visible = false;
                             return;
                         }
                     }
